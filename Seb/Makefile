@@ -1,30 +1,34 @@
-all: libLcd.a lcddemo.elf
+all: libSeb.a sebdemo.elf
 
 CPU             = msp430g2553
-CFLAGS = -I./timerLib
 CFLAGS          = -mmcu=${CPU} -Os -I../h 
-LDFLAGS 	= -L/opt/ti/msp430_gcc/include -L../lib 
-#switch the compiler (for the internal make rules)
+LDFLAGS         = -L/opt/ti/msp430_gcc/include -L../lib 
 CC              = msp430-elf-gcc
 AS              = msp430-elf-as
 AR              = msp430-elf-ar
 
-libLcd.a: font-11x16.o font-5x7.o font-8x12.o lcdutils.o lcddraw.o
+# Static library
+libSeb.a: sebutils.o sebmath.o
 	$(AR) crs $@ $^
 
-lcddraw.o: lcddraw.c lcddraw.h lcdutils.h
-lcdutils.o: lcdutils.c lcdutils.h
+# Object dependencies
+sebutils.o: sebutils.c sebutils.h
+sebmath.o: sebmath.c sebmath.h
 
-install: libLcd.a
+# Install headers and library
+install: libSeb.a
 	mkdir -p ../h ../lib
 	mv $^ ../lib
 	cp *.h ../h
 
+# Clean all build artifacts
 clean:
-	rm -f libLcd.a *.o *.elf
+	rm -f libSeb.a *.o *.elf
 
-lcddemo.elf: lcddemo.o libLcd.a 
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lTimer 
+# Demo executable
+sebdemo.elf: sebdemo.o libSeb.a
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lTimer
 
-load: lcddemo.elf
+# Flash to device
+load: sebdemo.elf
 	msp430loader.sh $^
