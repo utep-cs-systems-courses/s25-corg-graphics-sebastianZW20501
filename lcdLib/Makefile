@@ -1,6 +1,7 @@
 all: libLcd.a lcddemo.elf
 
 CPU             = msp430g2553
+CFLAGS = -I./timerLib
 CFLAGS          = -mmcu=${CPU} -Os -I../h 
 LDFLAGS 	= -L/opt/ti/msp430_gcc/include -L../lib 
 #switch the compiler (for the internal make rules)
