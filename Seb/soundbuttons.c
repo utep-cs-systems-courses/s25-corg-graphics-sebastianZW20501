@@ -4,6 +4,7 @@
 #include "lcddraw.h"
 #include "stateMachine.h"
 #include "sound.h"
+#include "wakedemo.c"
 
 #define SWITCHES 15
 #define SW1 1
