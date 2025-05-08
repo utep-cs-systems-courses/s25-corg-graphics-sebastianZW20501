@@ -10,7 +10,7 @@ CC              = msp430-elf-gcc
 AS              = msp430-elf-gcc -mmcu=${CPU} -c
 
 #additional rules for files
-wakedemo.elf: ${COMMON_OBJECTS} stateMachine.o wdt_handler.o sound.o soundbuttons.c
+wakedemo.elf: ${COMMON_OBJECTS} stateMachine.o wdt_handler.o sound.o soundbuttons.o
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd 
 
 # Source files
