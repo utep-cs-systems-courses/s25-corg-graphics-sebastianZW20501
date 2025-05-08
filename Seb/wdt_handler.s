@@ -1,18 +1,16 @@
 .text
-  .balign 2                ; align to even address
-  .global WDT
+.balign 2
+.global WDT
 
-  ; WDT uses interrupt vector #11
-  .section __interrupt_vector_11, "ax"
-  .word WDT                ; Entry for vector table
+.section __interrupt_vector_11, "ax"
+.word WDT
 
 .text
 
-  .extern redrawScreen     ; External reference to C variable
-  .extern wdt_c_handler    ; External reference to C function
+.extern redrawScreen
+.extern wdt_c_handler
 
 WDT:
-  ; --- Prologue: save registers ---
   PUSH    R15
   PUSH    R14
   PUSH    R13
@@ -26,10 +24,8 @@ WDT:
   PUSH    R5
   PUSH    R4
 
-  ; --- Call C handler ---
   CALL    #wdt_c_handler
 
-  ; --- Epilogue: restore registers ---
   POP     R4
   POP     R5
   POP     R6
@@ -43,11 +39,9 @@ WDT:
   POP     R14
   POP     R15
 
-  ; --- Conditionally wake CPU if redrawScreen is true ---
-  CMP     #0, &redrawScreen   ; Check if redrawScreen != 0
+  CMP     #0, &redrawScreen
   JZ      dont_wake
-  AND     #0xffef, 0(R1)      ; Clear CPUOFF bit in saved status register (wake CPU)
+  AND     #0xffef, 0(R1)
 
 dont_wake:
-  RETI                        ; Return from interrupt (restores SR & PC)
-
+  RETI
