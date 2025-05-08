@@ -1,34 +1,28 @@
-all: libSeb.a sebdemo.elf
-
+# Makefile configuration
 CPU             = msp430g2553
-CFLAGS          = -mmcu=${CPU} -Os -I../h 
-LDFLAGS         = -L/opt/ti/msp430_gcc/include -L../lib 
+CFLAGS          = -mmcu=${CPU} -Os -I../h
+LDFLAGS         = -L../lib -L/opt/ti/msp430_gcc/include/
+
+# Switch the compiler (for the internal make rules)
 CC              = msp430-elf-gcc
-AS              = msp430-elf-as
-AR              = msp430-elf-ar
+AS              = msp430-elf-gcc -mmcu=${CPU} -c
 
-# Static library
-libSeb.a: sebutils.o sebmath.o
-	$(AR) crs $@ $^
+# Source files
+OBJS            = soundbuttons.o stateMachine.o sound.o wdt_handler.o
 
-# Object dependencies
-sebutils.o: sebutils.c sebutils.h
-sebmath.o: sebmath.c sebmath.h
+# Target
+TARGET          = soundbuttons.elf
 
-# Install headers and library
-install: libSeb.a
-	mkdir -p ../h ../lib
-	mv $^ ../lib
-	cp *.h ../h
+all: ${TARGET}
 
-# Clean all build artifacts
-clean:
-	rm -f libSeb.a *.o *.elf
+# Link the final ELF binary
+${TARGET}: ${OBJS}
+	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd
 
-# Demo executable
-sebdemo.elf: sebdemo.o libSeb.a
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ -lTimer
-
-# Flash to device
-load: sebdemo.elf
+# Load the program to the board
+load: ${TARGET}
 	msp430loader.sh $^
+
+# Clean all build files
+clean:
+	rm -f *.o *.elf
