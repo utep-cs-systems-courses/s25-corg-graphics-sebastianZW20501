@@ -7,7 +7,7 @@
 
 
 #define SWITCHES 15
-#define SW1 1
+#define SW1 1 
 #define SW2 2
 #define SW3 4
 #define SW4 8
