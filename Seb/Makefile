@@ -9,10 +9,6 @@ LDFLAGS         = -L../lib -L/opt/ti/msp430_gcc/include/
 CC              = msp430-elf-gcc
 AS              = msp430-elf-gcc -mmcu=${CPU} -c
 
-# Rule to copy files
-copy_files:
-    cp -r $(SRC_DIR)/* $(DEST_DIR)/
-
 #additional rules for files
 wakedemo.elf: ${COMMON_OBJECTS} stateMachine.o wdt_handler.o sound.o soundbuttons.o
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd 
