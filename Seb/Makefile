@@ -13,6 +13,10 @@ AS              = msp430-elf-gcc -mmcu=${CPU} -c
 copy_files:
     cp -r $(SRC_DIR)/* $(DEST_DIR)/
 
+#additional rules for files
+wakedemo.elf: ${COMMON_OBJECTS} wakedemo.o wdt_handler.o
+	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd 
+
 # Source files
 OBJS            = soundbuttons.o stateMachine.o sound.o wdt_handler.o wakedemo.c
 
