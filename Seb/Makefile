@@ -8,7 +8,7 @@ CC              = msp430-elf-gcc
 AS              = msp430-elf-gcc -mmcu=${CPU} -c
 
 # Source files
-OBJS            = soundbuttons.o stateMachine.o sound.o wdt_handler.o
+OBJS            = soundbuttons.o stateMachine.o sound.o wdt_handler.o wakedemo.c
 
 # Target
 TARGET          = soundbuttons.elf
