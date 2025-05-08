@@ -50,7 +50,7 @@ void main()
 {
   configureClocks();
   lcd_init();
-  switch_init();
+  lcd_ini();
   buzzer_init();
 
   clearScreen(COLOR_BLACK);
