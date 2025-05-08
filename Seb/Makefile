@@ -9,6 +9,10 @@ LDFLAGS         = -L../lib -L/opt/ti/msp430_gcc/include/
 CC              = msp430-elf-gcc
 AS              = msp430-elf-gcc -mmcu=${CPU} -c
 
+# Rule to copy files
+copy_files:
+    cp -r $(SRC_DIR)/* $(DEST_DIR)/
+
 # Source files
 OBJS            = soundbuttons.o stateMachine.o sound.o wdt_handler.o wakedemo.c
 
