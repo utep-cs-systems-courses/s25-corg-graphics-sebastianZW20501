@@ -1,5 +1,7 @@
 # Makefile configuration
 CPU             = msp430g2553
+CFLAGS = -I./timerLib
+CFLAGS = -I./lcdLib
 CFLAGS          = -mmcu=${CPU} -Os -I../h
 LDFLAGS         = -L../lib -L/opt/ti/msp430_gcc/include/
 
