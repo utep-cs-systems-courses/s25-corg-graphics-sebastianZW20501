@@ -38,7 +38,7 @@ void draw_ball(int col, int row, unsigned short color);
 void screen_update_ball();
 void screen_update_hourglass();
 void go_to_sleep();
-void wake_up();
+
 void switch_interrupt_handler();
 void configure_clocks();
 void clear_screen();
@@ -113,10 +113,7 @@ void go_to_sleep() {
 }
 
 
-// Wake Up Logic
-void wake_up() {
-    __bic_SR_register_on_exit(LPM4_bits); // Exit LPM4
-}
+
 
 // Main Entry Point
 void main() {
