@@ -49,6 +49,8 @@ void __interrupt_vec(PORT2_VECTOR) Port_2() {
         P2IFG &= ~SWITCHES;
         switch_interrupt_handler();
 
+        P1OUT ^= LED;
+
         // Wake up the CPU from low power mode
         __bic_SR_register_on_exit(LPM4_bits);
     }
@@ -121,7 +123,7 @@ void main() {
     P1DIR |= LED;
     P1OUT |= LED;
     currentState = STATE_SLEEP;
-    go_to_sleep();
+    //go_to_sleep();
     while (1) {
         if (redrawScreen) {
             redrawScreen = 0;
