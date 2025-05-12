@@ -40,7 +40,7 @@ void screen_update_hourglass();
 void go_to_sleep();
 
 void switch_interrupt_handler();
-void configure_clocks();
+//void configure_clocks();
 //void clearScreen();
 
 // Switch Interrupt Handler
@@ -117,7 +117,7 @@ void go_to_sleep() {
 
 // Main Entry Point
 void main() {
-    configure_clocks();
+    configureClocks();
     P1DIR |= LED;
     P1OUT |= LED;
     currentState = STATE_SLEEP;
