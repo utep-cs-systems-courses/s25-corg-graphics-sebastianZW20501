@@ -25,9 +25,7 @@ State currentState = STATE_SLEEP;
 #define LED BIT6
 short redrawScreen = 1;
 
-// Ball Movement
-short drawPos[2] = {1, 10}, controlPos[2] = {2, 10};
-short colVelocity = 1, colLimits[2] = {1, 48};
+
 
 // Hourglass Colors
 char blue = 31, green = 0, red = 31;
@@ -89,23 +87,7 @@ void switch_interrupt_handler() {
     redrawScreen = 1;
 }
 
-// Draw Ball
-void draw_ball(int col, int row, unsigned short color) {
-    // Replace this with your fillRectangle function
-}
 
-// Update Ball Screen
-void screen_update_ball() {
-    for (char axis = 0; axis < 2; axis++) 
-        if (drawPos[axis] != controlPos[axis]) 
-            goto redraw;
-    return;
-redraw:
-    draw_ball(drawPos[0], drawPos[1], 0x001F); // Erase (replace with your color code)
-    for (char axis = 0; axis < 2; axis++) 
-        drawPos[axis] = controlPos[axis];
-    draw_ball(drawPos[0], drawPos[1], 0xFFFF); // Draw (replace with your color code)
-}
 
 // Update Hourglass Screen
 void screen_update_hourglass() {
@@ -179,7 +161,7 @@ void main() {
         }
         
         // Low power mode wait
-        __bis_SR_register(LPM0_bits + GIE); // Enter LPM0 (CPU off, peripherals on)
+        //__bis_SR_register(LPM0_bits + GIE); // Enter LPM0 (CPU off, peripherals on)
     }
 }
 
