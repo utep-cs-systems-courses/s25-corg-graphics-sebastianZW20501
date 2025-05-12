@@ -1,4 +1,4 @@
-""# Makefile configuration
+# Makefile configuration
 CPU              = msp430g2553
 CFLAGS           = -mmcu=${CPU} -Os -I../h
 LDFLAGS          = -L../lib -L/opt/ti/msp430_gcc/include/
@@ -25,4 +25,4 @@ load: $(TARGET)
 # Clean build files
 clean:
 	rm -f *.o *.elf
-""
+
