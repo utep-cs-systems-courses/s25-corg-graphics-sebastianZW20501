@@ -15,7 +15,7 @@ wakedemo.elf: ${COMMON_OBJECTS} stateMachine.o wdt_handler.o sound.o soundbutton
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd 
 
 # Source files
-OBJS            = soundbuttons.o stateMachine.o sound.o wdt_handler.o wakedemo.c
+OBJS            = soundbuttons.o stateMachine.o sound.o wdt_handler.o wakedemo.o
 
 # Target
 TARGET          = soundbuttons.elf
