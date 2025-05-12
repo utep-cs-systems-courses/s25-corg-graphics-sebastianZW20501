@@ -138,7 +138,7 @@ void main() {
     // Initialize the screen and the buttons
     lcd_init();
     clearScreen(COLOR_BLUE);
-    switch_init();
+    
     
     // Set the starting state to sleep
     currentState = STATE_SLEEP;
