@@ -123,6 +123,25 @@ void main() {
     P1DIR |= LED;
     P1OUT |= LED;
     currentState = STATE_SLEEP;
+
+
+    enableWDTInterrupts();
+    or_sr(0x8); // Global Interrupt Enable
+
+    lcd_init();          // Initialize the screen
+    clearScreen(COLOR_BLUE);  // Clear with a color
+
+    // Draw a test pixel in white
+    lcd_setArea(10, 10, 10, 10); 
+    lcd_writeColor(COLOR_WHITE);
+
+    while (1) {
+        P1OUT ^= LED;   // LED blinks if alive
+        __delay_cycles(500000); // Wait a bit
+    }
+
+    
+    
     //go_to_sleep();
     while (1) {
         if (redrawScreen) {
