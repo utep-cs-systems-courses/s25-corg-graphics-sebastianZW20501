@@ -105,8 +105,9 @@ void update_shape() {
 
 // Enter Low Power Mode
 void go_to_sleep() {
-    __bis_SR_register(LPM4_bits + GIE); // Enter LPM4
+    or_sr(0x18); // CPU Off, GIE enabled
 }
+
 
 // Wake Up Logic
 void wake_up() {
