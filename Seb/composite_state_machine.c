@@ -4,7 +4,7 @@
 #include "lcddraw.h"
 
 
-// State Definitions
+
 typedef enum {
     STATE_SLEEP,
     STATE_IDLE,
@@ -27,20 +27,19 @@ short redrawScreen = 1;
 
 
 
-// Hourglass Colors
+
 char blue = 31, green = 0, red = 31;
 unsigned char step = 0;
 
-// Forward Declarations
+
 void update_shape();
 void draw_ball(int col, int row, unsigned short color);
 void screen_update_ball();
 void screen_update_hourglass();
 void go_to_sleep();
-
 void switch_interrupt_handler();
-//void configure_clocks();
-//void clearScreen();
+
+
 
 // Switch Interrupt Handler
 void __interrupt_vec(PORT2_VECTOR) Port_2() {
@@ -89,7 +88,7 @@ void switch_interrupt_handler() {
 
 
 
-// Update Hourglass Screen
+
 void screen_update_hourglass() {
     clearScreen(COLOR_BLUE);
     
@@ -109,7 +108,7 @@ void screen_update_hourglass() {
 }
 
 
-// Main Update Shape Logic
+
 void update_shape() {
     switch (currentState) {
         case STATE_HOURGLASS:
@@ -124,33 +123,36 @@ void update_shape() {
     }
 }
 
-// Enter Low Power Mode
+
 void go_to_sleep() {
-    or_sr(0x18); // CPU Off, GIE enabled
+    or_sr(0x18); 
 }
 
 
 
 
-// Main Entry Point
+
 void main() {
     // Initialize the clock and the LED
     configureClocks();
-    P1DIR |= LED;   // Set LED as output
-    P1OUT |= LED;   // Turn it on to indicate startup
+    P1DIR |= LED;   
+    P1OUT |= LED;   
     
-    // Initialize the screen and the buttons
+   
     lcd_init();
     clearScreen(COLOR_BLUE);
     switch_init();
+
     
     
-    // Set the starting state to sleep
+   
     currentState = STATE_SLEEP;
 
-    // Enable interrupts and low-power mode
-    enableWDTInterrupts();    // Watchdog timer interrupts
+    
+    enableWDTInterrupts();    
     or_sr(0x18);              // GIE (Global Interrupt Enable) + CPU off
+
+    
     
     while (1) {
         if (redrawScreen) {
