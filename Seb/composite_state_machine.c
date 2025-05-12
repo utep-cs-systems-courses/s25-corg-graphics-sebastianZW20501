@@ -48,8 +48,12 @@ void __interrupt_vec(PORT2_VECTOR) Port_2() {
     if (P2IFG & SWITCHES) {
         P2IFG &= ~SWITCHES;
         switch_interrupt_handler();
+
+        // Wake up the CPU from low power mode
+        __bic_SR_register_on_exit(LPM4_bits);
     }
 }
+
 
 void switch_interrupt_handler() {
     char p2val = P2IN & SWITCHES;
