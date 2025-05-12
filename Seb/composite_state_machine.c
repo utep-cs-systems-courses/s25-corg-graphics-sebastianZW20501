@@ -84,7 +84,7 @@ redraw:
 // Update Hourglass Screen
 void screen_update_hourglass() {
     if (step == 0) {
-        clearScreen();
+        clearScreen(COLOR_BLUE);
     } else {
         // Draw hourglass logic (replace with your own)
     }
