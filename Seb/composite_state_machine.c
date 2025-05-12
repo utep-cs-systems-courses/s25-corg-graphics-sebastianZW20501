@@ -41,7 +41,7 @@ void go_to_sleep();
 
 void switch_interrupt_handler();
 void configure_clocks();
-void clear_screen();
+//void clearScreen();
 
 // Switch Interrupt Handler
 void __interrupt_vec(PORT2_VECTOR) Port_2() {
@@ -84,7 +84,7 @@ redraw:
 // Update Hourglass Screen
 void screen_update_hourglass() {
     if (step == 0) {
-        clear_screen();
+        clearScreen();
     } else {
         // Draw hourglass logic (replace with your own)
     }
