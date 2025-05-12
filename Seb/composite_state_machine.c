@@ -85,12 +85,23 @@ redraw:
 
 // Update Hourglass Screen
 void screen_update_hourglass() {
-    if (step == 0) {
-        clearScreen(COLOR_BLUE);
-    } else {
-        // Draw hourglass logic (replace with your own)
+    clearScreen(COLOR_BLUE);
+    
+    static unsigned char row = screenHeight / 2, col = screenWidth / 2;
+    static char lastStep = 0;
+  
+    for (lastStep = 0; lastStep <= 30; lastStep++) {
+        int startCol = col - lastStep;
+        int endCol = col + lastStep;
+        int width = 1 + endCol - startCol;
+
+        unsigned int color = (blue << 11) | (green << 5) | red;
+        
+        fillRectangle(startCol, row + lastStep, width, 1, color);
+        fillRectangle(startCol, row - lastStep, width, 1, color);
     }
 }
+
 
 // Main Update Shape Logic
 void update_shape() {
@@ -125,7 +136,7 @@ void main() {
     currentState = STATE_SLEEP;
 
 
-    enableWDTInterrupts();
+    /*enableWDTInterrupts();
     or_sr(0x8); // Global Interrupt Enable
 
     lcd_init();          // Initialize the screen
@@ -138,7 +149,7 @@ void main() {
     while (1) {
         P1OUT ^= LED;   // LED blinks if alive
         __delay_cycles(500000); // Wait a bit
-    }
+    }*/
 
     
     
