@@ -2,6 +2,7 @@
 #include <libTimer.h>
 #include "lcdutils.h"
 #include "lcddraw.h"
+#include "msquares.c"
 
 // State Definitions
 typedef enum {
@@ -138,6 +139,7 @@ void main() {
     // Initialize the screen and the buttons
     lcd_init();
     clearScreen(COLOR_BLUE);
+    switch_init();
     
     
     // Set the starting state to sleep
