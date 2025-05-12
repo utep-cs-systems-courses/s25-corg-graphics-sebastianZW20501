@@ -130,35 +130,31 @@ void go_to_sleep() {
 
 // Main Entry Point
 void main() {
+    // Initialize the clock and the LED
     configureClocks();
-    P1DIR |= LED;
-    P1OUT |= LED;
+    P1DIR |= LED;   // Set LED as output
+    P1OUT |= LED;   // Turn it on to indicate startup
+    
+    // Initialize the screen and the buttons
+    lcd_init();
+    clearScreen(COLOR_BLUE);
+    switch_init();
+    
+    // Set the starting state to sleep
     currentState = STATE_SLEEP;
 
-
-    /*enableWDTInterrupts();
-    or_sr(0x8); // Global Interrupt Enable
-
-    lcd_init();          // Initialize the screen
-    clearScreen(COLOR_BLUE);  // Clear with a color
-
-    // Draw a test pixel in white
-    lcd_setArea(10, 10, 10, 10); 
-    lcd_writeColor(COLOR_WHITE);
-
-    while (1) {
-        P1OUT ^= LED;   // LED blinks if alive
-        __delay_cycles(500000); // Wait a bit
-    }*/
-
+    // Enable interrupts and low-power mode
+    enableWDTInterrupts();    // Watchdog timer interrupts
+    or_sr(0x18);              // GIE (Global Interrupt Enable) + CPU off
     
-    
-    //go_to_sleep();
     while (1) {
         if (redrawScreen) {
             redrawScreen = 0;
             update_shape();
         }
+        
+        // Low power mode wait
+        __bis_SR_register(LPM0_bits + GIE); // Enter LPM0 (CPU off, peripherals on)
     }
 }
 
