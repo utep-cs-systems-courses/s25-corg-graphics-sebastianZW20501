@@ -1,20 +1,28 @@
-# makfile configuration
-CPU             	= msp430g2553
-CFLAGS          	= -mmcu=${CPU} -Os -I../h
-LDFLAGS		= -L../lib -L/opt/ti/msp430_gcc/include/ 
+""# Makefile configuration
+CPU              = msp430g2553
+CFLAGS           = -mmcu=${CPU} -Os -I../h
+LDFLAGS          = -L../lib -L/opt/ti/msp430_gcc/include/
 
-#switch the compiler (for the internal make rules)
-CC              = msp430-elf-gcc
-AS              = msp430-elf-gcc -mmcu=${CPU} -c
+# Compiler and Assembler
+CC               = msp430-elf-gcc
+AS               = msp430-elf-gcc -mmcu=${CPU} -c
 
-all:msquares.elf
+# Target name
+TARGET           = composite_state_machine.elf
+OBJECTS          = composite_state_machine.o 
 
-#additional rules for files
-msquares.elf: ${COMMON_OBJECTS} msquares.o wdt_handler.o
-	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd 
+# Build all
+all: $(TARGET)
 
-load: msquares.elf
+# Linking
+$(TARGET): $(OBJECTS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ -lTimer -lLcd
+
+# Load onto the device
+load: $(TARGET)
 	msp430loader.sh $^
 
+# Clean build files
 clean:
 	rm -f *.o *.elf
+""
