@@ -2,7 +2,7 @@
 #include <libTimer.h>
 #include "lcdutils.h"
 #include "lcddraw.h"
-#include "msquares.c"
+
 
 // State Definitions
 typedef enum {
@@ -56,6 +56,19 @@ void __interrupt_vec(PORT2_VECTOR) Port_2() {
         __bic_SR_register_on_exit(LPM4_bits);
     }
 }
+
+
+
+void switch_init()			/* setup switch */
+{  
+  P2REN |= SWITCHES;		/* enables resistors for switches */
+  P2IE |= SWITCHES;		/* enable interrupts from switches */
+  P2OUT |= SWITCHES;		/* pull-ups for switches */
+  P2DIR &= ~SWITCHES;		/* set switches' bits for input */
+  switch_update_interrupt_sense();
+}
+
+
 
 
 void switch_interrupt_handler() {
