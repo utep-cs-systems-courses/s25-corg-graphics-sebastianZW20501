@@ -33,7 +33,7 @@ unsigned char step = 0;
 
 
 void update_shape();
-void draw_ball(int col, int row, unsigned short color);
+//void draw_ball(int col, int row, unsigned short color);
 void screen_update_ball();
 void screen_update_hourglass();
 void go_to_sleep();
