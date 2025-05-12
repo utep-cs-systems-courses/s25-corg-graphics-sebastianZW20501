@@ -1,37 +1,35 @@
-CC = msp430-gcc
-CPU = msp430g2553
-CFLAGS = -mmcu=$(CPU) -I/opt/ti/msp430_gcc/include -L/opt/ti/msp430_gcc/include -Os
-LIBS = -lTimer -lLcd
+# Makefile configuration
+CPU             = msp430g2553
+CFLAGS = -I./timerLib
+CFLAGS = -I./lcdLib
+CFLAGS          = -mmcu=${CPU} -Os -I../h
+LDFLAGS         = -L../lib -L/opt/ti/msp430_gcc/include/
+
+# Switch the compiler (for the internal make rules)
+CC              = msp430-elf-gcc
+AS              = msp430-elf-gcc -mmcu=${CPU} -c
+
+#additional rules for files
+wakedemo.elf: ${COMMON_OBJECTS} stateMachine.o wdt_handler.o sound.o soundbuttons.o
+wakedemo.elf: ${COMMON_OBJECTS} stateMachine.o wdt_handler.o sound.o soundbuttons.o wakedemo.o
+	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd 
 
 # Source files
-SRC = soundbuttons.c sound.c stateMachine.c wdt_handler.s
-OBJ = $(SRC:.c=.o)
+OBJS            = soundbuttons.o stateMachine.o sound.o wdt_handler.o wakedemo.c
 
-# Executable
-TARGET = soundbuttons.elf
+# Target
+TARGET          = soundbuttons.elf
 
-# Default target
-all: $(TARGET)
+all: ${TARGET}
 
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
+# Link the final ELF binary
+${TARGET}: ${OBJS}
+	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+# Load the program to the board
+load: ${TARGET}
+	msp430loader.sh $^
 
-wdt_handler.o: wdt_handler.s
-	msp430-as -mmcu=$(CPU) wdt_handler.s -o wdt_handler.o
-
+# Clean all build files
 clean:
-	rm -f $(OBJ) $(TARGET)
-
-run: $(TARGET)
-	msp430-run $(TARGET)
-
-flash: $(TARGET)
-	msp430-loader.sh $(TARGET)
-
-load: $(TARGET)
-	msp430-load $(TARGET)
-
-.PHONY: all clean run flash load
+	rm -f *.o *.elf
