@@ -115,9 +115,7 @@ void update_shape() {
         case STATE_HOURGLASS:
             screen_update_hourglass();
             break;
-        case STATE_BALL:
-            screen_update_ball();
-            break;
+      
         case STATE_SLEEP:
             go_to_sleep();
             break;
